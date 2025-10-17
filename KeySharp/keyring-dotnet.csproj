@@ -4,8 +4,8 @@
         <TargetFramework>net8.0</TargetFramework>
 
         <PackageId>keyring-dotnet</PackageId>
-        <PackageVersion>1.1.0</PackageVersion>
-        <FileVersion>1.1.0</FileVersion>
+        <PackageVersion>1.2.0</PackageVersion>
+        <FileVersion>1.2.0</FileVersion>
 
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Description>Cross-platform keychain</Description>
