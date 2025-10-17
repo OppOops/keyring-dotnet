@@ -1,4 +1,4 @@
-# KeySharp (keyring-dotnet) [![Nuget](https://img.shields.io/nuget/v/KeySharp)](https://www.nuget.org/packages/keyring-dotnet/)
+# KeySharp (keyring-dotnet) [![Nuget](https://img.shields.io/nuget/v/keyring-dotnet)](https://www.nuget.org/packages/keyring-dotnet/)
 
 Cross-platform OS keyring access for C#/.NET based on [keychain by hrantzsch](https://github.com/hrantzsch/keychain).
 All calls are potentially blocking, as the OS may ask the user to grant access or unlock the keychain.
@@ -9,7 +9,7 @@ With dynamic import dll, which makes container possible to prevent run-time erro
 
 ### Install
 
-`Install-Package keyring-dotnet -Version 1.1.0`
+`Install-Package keyring-dotnet -Version 1.2.0`
 
 ### Example
 
