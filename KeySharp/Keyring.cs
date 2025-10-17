@@ -8,7 +8,7 @@ namespace KeySharp;
 /// <summary>
 /// Class used to interface with the OS keyring.
 /// </summary>
-public static unsafe class Keyring
+public static class Keyring
 {
     /// <summary>
     /// Save a password to the keyring.
@@ -31,10 +31,10 @@ public static unsafe class Keyring
             ThrowLastError();
         }
 
-        Util.Free(nativePackage);
-        Util.Free(nativeService);
-        Util.Free(nativeUsername);
-        Util.Free(nativePassword);
+        Free(nativePackage);
+        Free(nativeService);
+        Free(nativeUsername);
+        Free(nativePassword);
     }
 
     /// <summary>
@@ -52,14 +52,14 @@ public static unsafe class Keyring
 
         var ret = Glue.GetPassword(nativePackage, nativeService, nativeUsername);
 
-        if (ret == null)
+        if (ret == IntPtr.Zero)
         {
             ThrowLastError();
         }
 
-        Util.Free(nativePackage);
-        Util.Free(nativeService);
-        Util.Free(nativeUsername);
+        Free(nativePackage);
+        Free(nativeService);
+        Free(nativeUsername);
 
         return ReadString(ret);
     }
@@ -83,23 +83,16 @@ public static unsafe class Keyring
             ThrowLastError();
         }
 
-        Util.Free(nativePackage);
-        Util.Free(nativeService);
-        Util.Free(nativeUsername);
+        Free(nativePackage);
+        Free(nativeService);
+        Free(nativeUsername);
     }
 
-    private static string ReadString(byte* data)
-    {
-        var passData = new List<byte>();
-        var c = *data;
-        while (c != 0)
-        {
-            passData.Add(c);
-            c = *(data + 1);
-            data++;
-        }
 
-        return Encoding.UTF8.GetString(passData.ToArray());
+    private static string ReadString(IntPtr data)
+    {
+        if (data == IntPtr.Zero) return null;
+        return Marshal.PtrToStringUTF8(data);
     }
 
     private static void ThrowLastError()
@@ -107,39 +100,21 @@ public static unsafe class Keyring
         var errorMsg = Glue.GetLastErrorMessage();
         var msgString = "Unknown error";
 
-        if (errorMsg != null)
+        if (errorMsg != IntPtr.Zero)
             msgString = ReadString(errorMsg);
 
         throw new KeyringException(Glue.GetLastError(), msgString);
     }
 
-    private static byte* AllocateNullTerminated(string text)
+    private static IntPtr AllocateNullTerminated(string text)
     {
-        byte* native;
-        if (text != null)
-        {
-            var byteCount = Encoding.UTF8.GetByteCount(text);
-            native = Util.Allocate(byteCount + 1);
-            var nativeLabelOffset = Util.GetUtf8(text, native, byteCount);
-            native[nativeLabelOffset] = 0;
-        }
-        else { native = null; }
-
-        return native;
+        if (text == null) return IntPtr.Zero;
+        return Marshal.StringToCoTaskMemUTF8(text);
     }
-}
 
-internal static unsafe class Util
-{
-    internal static byte* Allocate(int byteCount) => (byte*)Marshal.AllocHGlobal(byteCount);
-
-    internal static void Free(byte* ptr) => Marshal.FreeHGlobal((IntPtr)ptr);
-
-    internal static int GetUtf8(string s, byte* utf8Bytes, int utf8ByteCount)
+    internal static void Free(IntPtr ptr)
     {
-        fixed (char* utf16Ptr = s)
-        {
-            return Encoding.UTF8.GetBytes(utf16Ptr, s.Length, utf8Bytes, utf8ByteCount);
-        }
+        if (ptr != IntPtr.Zero)
+            Marshal.FreeCoTaskMem(ptr);
     }
 }

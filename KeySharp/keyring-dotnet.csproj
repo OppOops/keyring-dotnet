@@ -1,25 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
 
-        <PackageId>KeySharp</PackageId>
-        <PackageVersion>1.0.5</PackageVersion>
-        <FileVersion>1.0.5</FileVersion>
+        <PackageId>keyring-dotnet</PackageId>
+        <PackageVersion>1.1.0</PackageVersion>
+        <FileVersion>1.1.0</FileVersion>
 
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Description>Cross-platform keychain</Description>
+		<Authors>goaaats</Authors>
+		<LangVersion>latest</LangVersion>
+		
+		<PackageTags>keyring;keychain;credential;password;security;credential-manager;secrets</PackageTags>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/OppOops/keyring-dotnet</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/OppOops/keyring-dotnet.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 
-        <Description>Cross-platform keychain</Description>
-
-        <Authors>goaaats</Authors>
-        <LangVersion>latest</LangVersion>
-
-        <PackageProjectUrl>https://github.com/goaaats/KeySharp</PackageProjectUrl>
-        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RepositoryUrl>https://github.com/goaaats/KeySharp</RepositoryUrl>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
     </PropertyGroup>
 
     <ItemGroup>
